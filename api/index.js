@@ -59,7 +59,7 @@ app.post('/task', function (req, res) {
         const nextId = database.length + 1;
         newTask.id = nextId;
         database.push(newTask);
-        res.sendStatus(200);
+        res.send({id:nextId});
     } catch (e) {
         console.error(e.message);
         res.status(400).send({errorMessage: e.message});
