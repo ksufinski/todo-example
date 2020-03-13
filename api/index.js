@@ -21,11 +21,11 @@ const database = [
 
 ];
 
-app.get('/task', function (req, res) {
+app.get('/api/v1/task', function (req, res) {
     res.send(database);
 });
 
-app.get('/task/:id', function (req, res) {
+app.get('/api/v1/task/:id', function (req, res) {
     const targetId = req.params.id;
     const task = database.find(tasks => tasks.id === +targetId);
 
@@ -36,7 +36,7 @@ app.get('/task/:id', function (req, res) {
     }
 });
 
-app.put('/task/:id', function (req, res) {
+app.put('/api/v1/task/:id', function (req, res) {
 
     const targetId = req.params.id;
     const targetTaskUpdate = req.body;
@@ -50,7 +50,7 @@ app.put('/task/:id', function (req, res) {
     }
 })
 
-app.post('/task', function (req, res) {
+app.post('/api/v1/task', function (req, res) {
     const newTask = req.body;
 
     try {
@@ -68,6 +68,18 @@ app.post('/task', function (req, res) {
 
 })
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+app.delete('/api/v1/task/:id', function (req, res) {
+    const targetId = req.params.id;
+    let taskIndex = database.findIndex(tasks => tasks.id === +targetId);
+
+    if (taskIndex < 0) {
+        res.sendStatus(400);
+    } else {
+        database.splice(taskIndex, 1);
+        res.sendStatus(200);
+    }
+})
+
+app.listen(3001, function () {
+    console.log('Example app listening on port 3001!');
 });
